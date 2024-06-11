@@ -1,0 +1,89 @@
+.left {
+   width: 300px;
+   background-color: red;
+   overflow-y: auto;
+   background-color: #f9f9f9;
+   margin-right: 10px;
+}
+
+.list {
+    list-style: none;
+    padding: 5px 10px;
+}
+
+.list-item {
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.list-item.active {
+   background-color: #eee;
+
+}
+
+.list-item:hover {
+    background-color: #eee;
+}
+
+.right {
+    width: 100%;
+    padding: 20px 40px;
+}
+
+.display {
+    height: 550px;
+    display: block;
+    overflow-y: scroll;
+}
+
+.user-question {
+    text-align: right;
+    padding: 15px 0;
+}
+
+.question {
+    background-color: #f4f4f4;
+    border-radius: 20px;
+    padding: 15px;
+
+}
+
+.bot-answer {
+    text-align: left;
+    margin: 15px 0;
+}
+
+.answer {
+    text-align: right;
+    padding: 15px 0;
+}
+
+.message-wrapper {
+    position: relative;
+}
+
+.message {
+    border: none;
+    outline: none;
+    border-radius: 20px;
+    background-color: #f4f4f4;
+    width: 100%;
+    padding: 10px 20px;
+}
+
+.message-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 8px;
+    border-radius: 50%;
+    background-color: #d7d7d7;
+    cursor: pointer;
+
+}
+
+.message-icon:hover {
+    opacity: 0.9;
+}

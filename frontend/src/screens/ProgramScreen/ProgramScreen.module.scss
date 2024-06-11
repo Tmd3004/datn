@@ -1,0 +1,21 @@
+.box-content {
+    padding: 20px;
+}
+
+.link-btn {
+    background-color: #5d78ff;
+    padding: 8px;
+    border-radius: 20px;
+    border: none;
+    outline: none;
+}
+
+.link-btn:hover,
+.view-btn:hover {
+    opacity: 0.9;
+}
+
+.item-link {
+    text-decoration: none;
+    color: #fff;
+}

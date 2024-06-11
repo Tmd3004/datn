@@ -1,0 +1,114 @@
+.wrapper {
+    padding: 20px;
+    height: 100vh;
+    background-color: #fff;
+}
+
+.list {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.list-item {
+    width: 100%;
+}
+
+.panel {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.11)
+}
+
+.panel-heading {
+    background-color: #0d6efd;
+    padding: 10px;
+    border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
+    color: #fff;
+}
+
+.box-content {
+    padding: 5px;
+}
+
+.link-btn {
+    background-color: #5d78ff;
+    padding: 8px;
+    border-radius: 20px;
+    border: none;
+    outline: none;
+}
+
+.view-btn {
+    background-color: #0abb87;
+    padding: 8px 20px;
+    border-radius: 20px;
+    border: none;
+    outline: none;
+}
+
+
+.link-btn:hover, .view-btn:hover {
+    opacity: 0.9;
+}
+
+.item-link {
+    text-decoration: none;
+    color: #fff;
+}
+
+.total-file {
+    width: 100%;
+    background-color: #0073b7;
+    border: none;
+    outline: none;
+    border-radius: 4px;
+    font-size: 14px;
+    padding: 20px 10px;
+    transition: all ease-in 0.3s;
+}
+
+.total-file:hover {
+    background-color: #026097;
+}
+
+.link-file, .view-all {
+    text-align: left;
+    text-decoration: none;
+    color: #fff;
+    cursor: pointer;
+}
+
+.count {
+    font-size: 40px;
+    font-weight: 700;
+}
+
+.view-all:hover {
+    color: #8fd1f7;
+}
+
+.edit-btn, .delete-btn {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    outline: none;
+    border: none;
+    border-radius: 20px;
+    padding: 5px 10px;
+    color: #fff;
+}
+
+.edit-btn:hover, .delete-btn:hover {
+    opacity: 0.9;
+}
+
+.edit-btn {
+    background-color: #42A5F5;
+    margin-bottom: 4px;
+}
+
+.delete-btn {
+    background-color: #ef5350;
+}
