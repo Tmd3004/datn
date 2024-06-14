@@ -21,71 +21,71 @@ const Chatbot = () => {
       >
         <div className={cx("left")}>
           <ul className={cx("list")}>
-            <li className={cx("list-item", "active")}>Hello</li>
-            <li className={cx("list-item")}>Hello</li>
-            <li className={cx("list-item")}>Hello</li>
+            <li className={cx("list-item", "active")}></li>
+            <li className={cx("list-item")}></li>
+            <li className={cx("list-item")}></li>
           </ul>
         </div>
         <div className={cx("right")}>
           <div className={cx("display")}>
             <div className={cx("user-question")}>
               <span className={cx("question")}>
-                Hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
+               
               </span>
             </div>
             <div className={cx("bot-answer")}>
               <span className={cx("answer")}>
-                Hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
+               
               </span>
             </div>
             <div className={cx("user-question")}>
               <span className={cx("question")}>
-                Hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
+               
               </span>
             </div>
             <div className={cx("user-question")}>
               <span className={cx("question")}>
-                Hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
+               
               </span>
             </div>
             <div className={cx("user-question")}>
               <span className={cx("question")}>
-                Hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
+               
               </span>
             </div>
             <div className={cx("user-question")}>
               <span className={cx("question")}>
-                Hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
+               
               </span>
             </div>
             <div className={cx("user-question")}>
               <span className={cx("question")}>
-                Hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
+               
               </span>
             </div>
             <div className={cx("user-question")}>
               <span className={cx("question")}>
-                Hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
+               
               </span>
             </div>
             <div className={cx("user-question")}>
               <span className={cx("question")}>
-                Hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
+               
               </span>
             </div>
             <div className={cx("user-question")}>
               <span className={cx("question")}>
-                Hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
+               
               </span>
             </div>
             <div className={cx("user-question")}>
               <span className={cx("question")}>
-                Hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
+               
               </span>
             </div>
             <div className={cx("user-question")}>
               <span className={cx("question")}>
-                Hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
+               
               </span>
             </div>
             <div className={cx("user-question")}>

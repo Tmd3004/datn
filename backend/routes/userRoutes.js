@@ -16,7 +16,6 @@ const userRouter = express.Router();
 userRouter.get(
   "/",
   isAuth,
-  isAdmin,
   expressAsyncHandler(async (req, res) => {
     const users = await User.find({});
     res.send(users);
@@ -26,7 +25,6 @@ userRouter.get(
 userRouter.get(
   "/:id",
   isAuth,
-  isAdmin,
   expressAsyncHandler(async (req, res) => {
     const user = await User.findById(req.params.id);
     if (user) {
@@ -34,6 +32,23 @@ userRouter.get(
     } else {
       res.status(404).send({ message: "User Not Found" });
     }
+  })
+);
+
+userRouter.put(
+  "/update-admin/:id",
+  isAuth,
+  expressAsyncHandler(async (req, res) => {
+    
+      const user = await User.findById(req.params.id);
+      if (user) {
+        user.isAdmin = true;
+        await user.save();
+        res.status(200).send({ message: "User updated successfully", user });
+      } else {
+        res.status(404).send({ message: "User Not Found" });
+      }
+    
   })
 );
 
@@ -169,6 +184,7 @@ userRouter.post(
           name: user.name,
           email: user.email,
           isAdmin: user.isAdmin,
+          isManager: user.isManager,
           token: generateToken(user),
         });
         return;

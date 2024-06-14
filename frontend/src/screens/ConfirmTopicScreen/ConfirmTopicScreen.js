@@ -58,14 +58,11 @@ const ConfirmTopic = () => {
     const fetchData = async () => {
       try {
         dispatch({ type: "FETCH_REQUEST" });
-        const { data } = await axios.get(
-          `${baseUrl}/project`,
-          {
-            headers: {
-              authorization: `Bearer ${userInfo.token}`,
-            },
-          }
-        );
+        const { data } = await axios.get(`${baseUrl}/project`, {
+          headers: {
+            authorization: `Bearer ${userInfo.token}`,
+          },
+        });
         setData(data);
         dispatch({ type: "FETCH_SUCCESS" });
       } catch (err) {
@@ -84,7 +81,7 @@ const ConfirmTopic = () => {
     setActiveNav(window.location.href.slice(40));
   }, [window.location.reload]);
 
-  const dataAccept = data.filter((item) => item.status === "handle")
+  const dataAccept = data.filter((item) => item.status === "handle");
 
   return (
     <div style={{ padding: "0 15px" }}>
@@ -139,7 +136,7 @@ const ConfirmTopic = () => {
                   <td width="15%">
                     <b>Tổ chức chủ trì</b>
                   </td>
-                  
+
                   <td width="10%">
                     <b>Trạng thái</b>
                   </td>
@@ -171,7 +168,7 @@ const ConfirmTopic = () => {
                               ?.organizationName
                           }
                         </td>
-                                                <td>
+                        <td>
                           {item.status === "propose"
                             ? "Đang chỉnh sửa"
                             : item.status === "handle"
@@ -179,20 +176,18 @@ const ConfirmTopic = () => {
                             : "Đã xác nhận"}
                         </td>
                         <td>
-                          
-                            <button className={cx("view-btn")}>
-                              <Link
-                                to={`/program/school/${item._id}`}
-                                className={cx("item-link")}
-                              >
-                                <IoMdEye
-                                  size={20}
-                                  style={{ marginRight: "4px" }}
-                                />
-                                Xem
-                              </Link>
-                            </button>
-                          
+                          <button className={cx("view-btn")}>
+                            <Link
+                              to={`/confirm-topic/${item._id}`}
+                              className={cx("item-link")}
+                            >
+                              <IoMdEye
+                                size={20}
+                                style={{ marginRight: "4px" }}
+                              />
+                              Xem
+                            </Link>
+                          </button>
                         </td>
                       </tr>
                     ))

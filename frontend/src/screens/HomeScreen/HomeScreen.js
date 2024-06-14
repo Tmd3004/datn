@@ -10,6 +10,7 @@ import { Store } from "../../Store";
 import { getError } from "../../utils";
 import { FaRegEdit } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
+import { toast } from "react-toastify";
 
 const cx = classNames.bind(Styles);
 
@@ -53,6 +54,8 @@ function HomeScreen() {
     });
 
   const [data, setData] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [clickUpdate, setClickUpdate] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -78,264 +81,493 @@ function HomeScreen() {
     fetchData();
   }, []);
 
-  const dataAccept = data.filter((item) => item.status === "accept")
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        dispatch({ type: "FETCH_REQUEST" });
+        const { data } = await axios.get(`${baseUrl}/users`, {
+          headers: {
+            authorization: `Bearer ${userInfo.token}`,
+          },
+        });
+        setUsers(data);
+        dispatch({ type: "FETCH_SUCCESS" });
+      } catch (err) {
+        dispatch({
+          type: "FETCH_FAIL",
+          payload: getError(err),
+        });
+      }
+    };
+    fetchData();
+  }, [clickUpdate]);
+
+  const updateAdmin = async (data) => {
+    try {
+      dispatch({ type: "UPDATE_REQUEST" });
+      await axios.put(
+        `${baseUrl}/users/update-admin/${data._id}`,
+        {},
+        {
+          headers: {
+            authorization: `Bearer ${userInfo.token}`,
+          },
+        }
+      );
+      setClickUpdate(!clickUpdate);
+      dispatch({
+        type: "UPDATE_SUCCESS",
+      });
+      toast.success("User updated to admin successfully!");
+    } catch (err) {
+      toast.error(getError(err));
+      dispatch({ type: "UPDATE_FAIL" });
+    }
+  };
+
+  const dataAccept = data.filter((item) => item.status === "accept");
 
   return (
     <div style={{ padding: "0 15px" }}>
-       <Helmet>
+      <Helmet>
         <title>Trang chủ</title>
       </Helmet>
-      <div style={{ backgroundColor: "#fff", marginBottom: "5px" }}>
-        <h3
-          style={{
-            color: "#0054a6",
-            fontSize: "20px",
-            padding: "10px 20px",
-          }}
-        >
-          <img
-            src="/assets/circled-right.png"
-            alt="logo-title"
-            style={{ width: "25px", height: "25px", marginRight: "10px" }}
-          />
-          Bảng điều khiển của nhà khoa học
-        </h3>
-      </div>
-
-      <div className={cx("wrapper")}>
-        <div className={cx("list")}>
-          <div className="col-md-8" style={{ marginRight: "30px" }}>
-            <div className={cx("panel")}>
-              <div className={cx("panel-heading")}>
-                <b>Danh sách đề tài đang mở</b>
-              </div>
-              <div className={cx("box-content")}>
-                <table width="100%" style={{ fontSize: "14px" }}>
-                  <thead>
-                    <tr>
-                      <td width="5%">
-                        <b>#</b>
-                      </td>
-                      <td width="5%">
-                        <b>Năm</b>
-                      </td>
-                      <td width="40%">
-                        <b>Tên chương trình</b>
-                      </td>
-                      <td width="20%">
-                        <b>Hạn thu hồ sơ</b>
-                      </td>
-                      <td width="10%">
-                        <b>Đợt thu hồ sơ</b>
-                      </td>
-                      <td width="20%">
-                        <b>Đăng ký</b>
-                      </td>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>1</td>
-                      <td>2024</td>
-                      <td>Đề tài cấp trường</td>
-                      <td>17:00, 30/05/2024</td>
-                      <td>1</td>
-                      <td>
-                        <button
-                          onClick={() =>
-                            (window.location.href = "/program/school")
-                          }
-                          className={cx("link-btn")}
-                        >
-                          <div to="/program/school" className={cx("item-link")}>
-                            Đăng ký chương trình
-                          </div>
-                        </button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>2</td>
-                      <td>2024</td>
-                      <td>Đề tài cấp khoa</td>
-                      <td>17:00, 30/05/2024</td>
-                      <td>1</td>
-                      <td>
-                        <button
-                          onClick={() =>
-                            (window.location.href = "/program/school")
-                          }
-                          className={cx("link-btn")}
-                        >
-                          <div to="/program/school" className={cx("item-link")}>
-                            Đăng ký chương trình
-                          </div>
-                        </button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>1</td>
-                      <td>2024</td>
-                      <td>Đề tài khác</td>
-                      <td>17:00, 30/05/2024</td>
-                      <td>1</td>
-                      <td>
-                        <button
-                          onClick={() =>
-                            (window.location.href = "/program/school")
-                          }
-                          className={cx("link-btn")}
-                        >
-                          <div to="/program/school" className={cx("item-link")}>
-                            Đăng ký chương trình
-                          </div>
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
+      {userInfo.isManager ? (
+        <>
+          <div style={{ backgroundColor: "#fff", marginBottom: "5px" }}>
+            <h3
+              style={{
+                color: "#0054a6",
+                fontSize: "20px",
+                padding: "10px 20px",
+              }}
+            >
+              <img
+                src="/assets/circled-right.png"
+                alt="logo-title"
+                style={{ width: "25px", height: "25px", marginRight: "10px" }}
+              />
+              Quản lý tài khoản người dùng
+            </h3>
           </div>
 
-          <div className={cx("list-item")}>
-            <div className={cx("panel")}>
-              <div className={cx("box-content")}>
-                <button className={cx("total-file")}>
-                  <Link to="/topic_review" className={cx("link-file")}>
-                    <div className={cx("count")}>{dataAccept.length}</div>
-                    <p>Tổng số hồ sơ được mời phản biện</p>
-                  </Link>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className={cx("file")}>
-          <div className={cx("panel")}>
-            <div className={cx("panel-heading")}>
-              <b style={{ paddingRight: "8px" }}>Theo dõi hồ sơ</b>
-              <span
-                className={cx("view-all")}
-                onClick={() => (window.location.href = "/track_topic_status")}
-              >
-                Xem tất cả
-              </span>
-            </div>
-            <div className={cx("box-content")}>
-              <table width="100%" style={{ fontSize: "14px" }}>
-                <thead>
-                  <tr>
-                    <td width="3%">
-                      <b>#</b>
-                    </td>
-                    <td width="4%">
-                      <b>Năm</b>
-                    </td>
-                    <td width="10%">
-                      <b>Mã số</b>
-                    </td>
-                    <td width="25%">
-                      <b> Thông tin về công trình khoa học</b>
-                    </td>
-                    <td width="15%">
-                      <b>Chương trình</b>
-                    </td>
-                    <td width="15%">
-                      <b>Tổ chức chủ trì</b>
-                    </td>
-                    <td width="8%">
-                      <b>Vai trò</b>
-                    </td>
-                    <td width="10%">
-                      <b>Trạng thái</b>
-                    </td>
-                    <td width="10%">
-                      <b>Thao tác</b>
-                    </td>
-                  </tr>
-                </thead>
-                <tbody>
-                  {data.length > 0
-                    ? data.map((item, index) => (
-                        <tr key={index}>
-                          <td>{index + 1}</td>
-                          <td>2024</td>
-                          <td>
-                            {item._id} {item.inforGeneral._id}
+          <div className={cx("wrapper")}>
+            <div className={cx("list")}>
+              <div className="col-md-12" style={{ marginRight: "30px" }}>
+                <div className={cx("panel")}>
+                  <div className={cx("panel-heading")}>
+                    <b>Danh sách tài khoản đang mở</b>
+                  </div>
+                  <div className={cx("box-content")}>
+                    <table width="100%" style={{ fontSize: "14px" }}>
+                      <thead>
+                        <tr>
+                          <td width="5%">
+                            <b>#</b>
                           </td>
-                          <td>{item.inforGeneral.topicNameVi}</td>
-                          <td>
-                            {item.topic === "school"
-                              ? "Đề tài cấp trường"
-                              : item.topic === "faculty"
-                              ? "Đề tài cấp khoa"
-                              : "Đề tài khác"}
+                          <td width="15%">
+                            <b>ID người dùng</b>
                           </td>
-                          <td>
-                            {
-                              item.inforGeneral?.hostOrganization
-                                ?.organizationName
-                            }
+                          <td width="20%">
+                            <b>Tên</b>
                           </td>
-                          <td>
-                            {
-                              item.members.find(
-                                (value) => value.userId === userInfo._id
-                              ).role
-                            }
+                          <td width="25%">
+                            <b>Email</b>
                           </td>
-                          <td>
-                            {
-                              item.status === "propose" ? "Đang chỉnh sửa" :
-                              item.status === "handle" ? "Đang xử lý" :
-                              "Đã xác nhận"
-                            }
+                          <td width="15%">
+                            <b>Chức vụ</b>
                           </td>
-                          <td>
-                            {item.status === "handle" ||
-                            item.status === "accept" ? (
-                              <button className={cx("view-btn")}>
-                                <Link to={`/program/school/${item._id}`} className={cx("item-link")}>
-                                  <IoMdEye
-                                    size={20}
-                                    style={{ marginRight: "4px" }}
-                                  />
-                                  Xem
-                                </Link>
-                              </button>
-                            ) : (
-                              <>
-                                <button className={cx("edit-btn")}>
-                                  <Link className={cx("item-link")}>
-                                    <FaRegEdit
-                                      size={20}
-                                      style={{ marginRight: "4px" }}
-                                    />{" "}
-                                    Sửa
-                                  </Link>
-                                </button>
-                                <button className={cx("delete-btn")}>
-                                  <Link className={cx("item-link")}>
-                                    <MdDeleteOutline
-                                      size={20}
-                                      style={{ marginRight: "4px" }}
-                                    />{" "}
-                                    Xoá
-                                  </Link>
-                                </button>
-                              </>
-                            )}
+                          <td width="20%">
+                            <b>Thao tác (người nhận hồ sơ)</b>
                           </td>
                         </tr>
-                      ))
-                    : ""}
-                </tbody>
-              </table>
+                      </thead>
+                      <tbody>
+                        {users.map((item, index) => (
+                          <tr key={index}>
+                            <td>{index + 1}</td>
+                            <td>{item._id}</td>
+                            <td>{item.name}</td>
+                            <td>{item.email}</td>
+                            <td>
+                              {item.isManager
+                                ? "Quản lý"
+                                : item.isAdmin
+                                ? "Trưởng bộ môn"
+                                : "Người dùng"}
+                            </td>
+                            {item.isManager ? (
+                              ""
+                            ) : (
+                              <td>
+                                <button
+                                  className={cx("link-btn")}
+                                  onClick={() => {
+                                    updateAdmin(item);
+                                  }}
+                                >
+                                  Chọn
+                                </button>
+                              </td>
+                            )}
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
+        </>
+      ) : (
+        <>
+          <div style={{ backgroundColor: "#fff", marginBottom: "5px" }}>
+            <h3
+              style={{
+                color: "#0054a6",
+                fontSize: "20px",
+                padding: "10px 20px",
+              }}
+            >
+              <img
+                src="/assets/circled-right.png"
+                alt="logo-title"
+                style={{ width: "25px", height: "25px", marginRight: "10px" }}
+              />
+              Bảng điều khiển của nhà khoa học
+            </h3>
+          </div>
+
+          <div className={cx("wrapper")}>
+            <div className={cx("list")}>
+              <div className="col-md-8" style={{ marginRight: "30px" }}>
+                <div className={cx("panel")}>
+                  <div className={cx("panel-heading")}>
+                    <b>Danh sách đề tài đang mở</b>
+                  </div>
+                  <div className={cx("box-content")}>
+                    <table width="100%" style={{ fontSize: "14px" }}>
+                      <thead>
+                        <tr>
+                          <td width="5%">
+                            <b>#</b>
+                          </td>
+                          <td width="5%">
+                            <b>Năm</b>
+                          </td>
+                          <td width="40%">
+                            <b>Tên chương trình</b>
+                          </td>
+                          <td width="20%">
+                            <b>Hạn thu hồ sơ</b>
+                          </td>
+                          <td width="10%">
+                            <b>Đợt thu hồ sơ</b>
+                          </td>
+                          <td width="20%">
+                            <b>Đăng ký</b>
+                          </td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>1</td>
+                          <td>2024</td>
+                          <td>Đề tài cấp trường</td>
+                          <td>17:00, 30/05/2024</td>
+                          <td>1</td>
+                          <td>
+                            <button
+                              onClick={() =>
+                                (window.location.href = "/program/school")
+                              }
+                              className={cx("link-btn")}
+                            >
+                              <div
+                                to="/program/school"
+                                className={cx("item-link")}
+                              >
+                                Đăng ký chương trình
+                              </div>
+                            </button>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>2</td>
+                          <td>2024</td>
+                          <td>Đề tài cấp khoa</td>
+                          <td>17:00, 30/05/2024</td>
+                          <td>1</td>
+                          <td>
+                            <button
+                              onClick={() =>
+                                (window.location.href = "/program/faculty")
+                              }
+                              className={cx("link-btn")}
+                            >
+                              <div
+                                to="/program/faculty"
+                                className={cx("item-link")}
+                              >
+                                Đăng ký chương trình
+                              </div>
+                            </button>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>3</td>
+                          <td>2024</td>
+                          <td>Đề tài khác</td>
+                          <td>17:00, 30/05/2024</td>
+                          <td>1</td>
+                          <td>
+                            <button
+                              onClick={() =>
+                                (window.location.href = "/program/other")
+                              }
+                              className={cx("link-btn")}
+                            >
+                              <div
+                                to="/program/other"
+                                className={cx("item-link")}
+                              >
+                                Đăng ký chương trình
+                              </div>
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              <div className={cx("list-item")}>
+                <div className={cx("panel")}>
+                  <div className={cx("box-content")}>
+                    <button className={cx("total-file")}>
+                      <Link to="/topic_review" className={cx("link-file")}>
+                        <div className={cx("count")}>{dataAccept.length}</div>
+                        <p>Tổng số hồ sơ được mời phản biện</p>
+                      </Link>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className={cx("file")}>
+              <div className={cx("panel")}>
+                <div className={cx("panel-heading")}>
+                  <b style={{ paddingRight: "8px" }}>Theo dõi hồ sơ</b>
+                  <span
+                    className={cx("view-all")}
+                    onClick={() =>
+                      (window.location.href = "/track_topic_status")
+                    }
+                  >
+                    Xem tất cả
+                  </span>
+                </div>
+                <div className={cx("box-content")}>
+                  <table width="100%" style={{ fontSize: "14px" }}>
+                    <thead>
+                      <tr>
+                        <td width="3%">
+                          <b>#</b>
+                        </td>
+                        <td width="4%">
+                          <b>Năm</b>
+                        </td>
+                        <td width="10%">
+                          <b>Mã số</b>
+                        </td>
+                        <td width="25%">
+                          <b> Thông tin về công trình khoa học</b>
+                        </td>
+                        <td width="15%">
+                          <b>Chương trình</b>
+                        </td>
+                        <td width="15%">
+                          <b>Tổ chức chủ trì</b>
+                        </td>
+                        <td width="8%">
+                          <b>Vai trò</b>
+                        </td>
+                        <td width="10%">
+                          <b>Trạng thái</b>
+                        </td>
+                        <td width="10%">
+                          <b>Thao tác</b>
+                        </td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {data.length > 0
+                        ? data.map((item, index) => (
+                            <tr key={index}>
+                              <td>{index + 1}</td>
+                              <td>2024</td>
+                              <td>
+                                {item._id} {item.inforGeneral._id}
+                              </td>
+                              <td>{item.inforGeneral.topicNameVi}</td>
+                              <td>
+                                {item.topic === "school"
+                                  ? "Đề tài cấp trường"
+                                  : item.topic === "faculty"
+                                  ? "Đề tài cấp khoa"
+                                  : "Đề tài khác"}
+                              </td>
+                              <td>
+                                {
+                                  item.inforGeneral?.hostOrganization
+                                    ?.organizationName
+                                }
+                              </td>
+                              <td>
+                                {
+                                  item.members.find(
+                                    (value) => value.userId === userInfo._id
+                                  ).role
+                                }
+                              </td>
+                              <td>
+                                {item.status === "propose"
+                                  ? "Đang chỉnh sửa"
+                                  : item.status === "handle"
+                                  ? "Đang xử lý"
+                                  : "Đã xác nhận"}
+                              </td>
+                              <td>
+                                {item.status === "handle" ||
+                                item.status === "accept" ? (
+                                  item.topic === "school" ? (
+                                    <button className={cx("view-btn")}>
+                                      <Link
+                                        to={`/program/school/${item._id}`}
+                                        className={cx("item-link")}
+                                      >
+                                        <IoMdEye
+                                          size={20}
+                                          style={{ marginRight: "4px" }}
+                                        />
+                                        Xem
+                                      </Link>
+                                    </button>
+                                  ) : item.topic === "faculty" ? (
+                                    <button className={cx("view-btn")}>
+                                      <Link
+                                        to={`/program/faculty/${item._id}`}
+                                        className={cx("item-link")}
+                                      >
+                                        <IoMdEye
+                                          size={20}
+                                          style={{ marginRight: "4px" }}
+                                        />
+                                        Xem
+                                      </Link>
+                                    </button>
+                                  ) : (
+                                    <button className={cx("view-btn")}>
+                                      <Link
+                                        to={`/program/other/${item._id}`}
+                                        className={cx("item-link")}
+                                      >
+                                        <IoMdEye
+                                          size={20}
+                                          style={{ marginRight: "4px" }}
+                                        />
+                                        Xem
+                                      </Link>
+                                    </button>
+                                  )
+                                ) : item.topic === "school" ? (
+                                  <>
+                                    <button className={cx("edit-btn")}>
+                                      <Link
+                                        to={`/program/school/${item._id}`}
+                                        className={cx("item-link")}
+                                      >
+                                        <FaRegEdit
+                                          size={20}
+                                          style={{ marginRight: "4px" }}
+                                        />{" "}
+                                        Sửa
+                                      </Link>
+                                    </button>
+                                    <button className={cx("delete-btn")}>
+                                      <Link className={cx("item-link")}>
+                                        <MdDeleteOutline
+                                          size={20}
+                                          style={{ marginRight: "4px" }}
+                                        />{" "}
+                                        Xoá
+                                      </Link>
+                                    </button>
+                                  </>
+                                ) : item.topic === "faculty" ? (
+                                  <>
+                                    <button className={cx("edit-btn")}>
+                                      <Link
+                                        to={`/program/faculty/${item._id}`}
+                                        className={cx("item-link")}
+                                      >
+                                        <FaRegEdit
+                                          size={20}
+                                          style={{ marginRight: "4px" }}
+                                        />{" "}
+                                        Sửa
+                                      </Link>
+                                    </button>
+                                    <button className={cx("delete-btn")}>
+                                      <Link className={cx("item-link")}>
+                                        <MdDeleteOutline
+                                          size={20}
+                                          style={{ marginRight: "4px" }}
+                                        />{" "}
+                                        Xoá
+                                      </Link>
+                                    </button>
+                                  </>
+                                ) : (
+                                  <>
+                                    <button className={cx("edit-btn")}>
+                                      <Link
+                                        to={`/program/other/${item._id}`}
+                                        className={cx("item-link")}
+                                      >
+                                        <FaRegEdit
+                                          size={20}
+                                          style={{ marginRight: "4px" }}
+                                        />{" "}
+                                        Sửa
+                                      </Link>
+                                    </button>
+                                    <button className={cx("delete-btn")}>
+                                      <Link className={cx("item-link")}>
+                                        <MdDeleteOutline
+                                          size={20}
+                                          style={{ marginRight: "4px" }}
+                                        />{" "}
+                                        Xoá
+                                      </Link>
+                                    </button>
+                                  </>
+                                )}
+                              </td>
+                            </tr>
+                          ))
+                        : ""}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }

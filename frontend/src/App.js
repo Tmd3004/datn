@@ -23,7 +23,10 @@ import RegisterProgramScreen from "./screens/RegisterProgramScreen/RegisterProgr
 import ConfirmTopic from "./screens/ConfirmTopicScreen/ConfirmTopicScreen";
 import ReviewTopicScreen from "./screens/ReviewTopicScreen/ReviewTopicScreen";
 import Chatbot from "./screens/Chatbot/Chatbot";
-
+import ProgramFacultyScreen from "./screens/ProgramFacultyScreen/ProgramFacultyScreen";
+import ProgramOtherScreen from "./screens/ProgramOtherScreen/ProgramOtherScreen";
+import ConfirmTopicScreen from "./screens/ConfirmTopicScreen/ConfirmTopicScreen";
+import ConfirmProgramScreen from "./screens/ConfirmProgramScreen/ConfirmProgramScreen";
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -161,6 +164,48 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Chatbot />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/program/faculty"
+              element={
+                <ProtectedRoute>
+                  <ProgramFacultyScreen />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/program/faculty/:id"
+              element={
+                <ProtectedRoute>
+                  <RegisterProgramScreen />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/program/other"
+              element={
+                <ProtectedRoute>
+                  <ProgramOtherScreen />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/program/other/:id"
+              element={
+                <ProtectedRoute>
+                  <RegisterProgramScreen />
+                </ProtectedRoute>
+              }
+            />
+             <Route
+              path="/confirm-topic/:id"
+              element={
+                <ProtectedRoute>
+                  <ConfirmProgramScreen />
                 </ProtectedRoute>
               }
             />

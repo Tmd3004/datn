@@ -150,7 +150,7 @@ function MyVerticallyCenteredModal(props) {
       centered
     >
       <Modal.Header className={cx("model-header")}>
-        <span className={cx("model-title")}>nafosted</span>
+        <span className={cx("model-title")}>BKDN</span>
 
         <button className={cx("close-btn")} onClick={props.onHide}>
           <img
@@ -523,7 +523,7 @@ function EditedModal(props) {
       centered
     >
       <Modal.Header className={cx("model-header")}>
-        <span className={cx("model-title")}>nafosted</span>
+        <span className={cx("model-title")}>BKDN</span>
 
         <button className={cx("close-btn")}>
           <img

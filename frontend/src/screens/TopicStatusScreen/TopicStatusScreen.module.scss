@@ -66,3 +66,28 @@
     text-decoration: none;
     color: #fff;
 }
+
+.edit-btn, .delete-btn {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    outline: none;
+    border: none;
+    border-radius: 20px;
+    padding: 5px 10px;
+    color: #fff;
+}
+
+.edit-btn:hover, .delete-btn:hover {
+    opacity: 0.9;
+}
+
+.edit-btn {
+    background-color: #42A5F5;
+    margin-bottom: 4px;
+}
+
+.delete-btn {
+    background-color: #ef5350;
+}

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useReducer, useState } from "react";
-import Styles from "./ProgramSchoolScreen.module.scss";
+import Styles from "./ProgramOtherScreen.module.scss";
 import classNames from "classnames/bind";
 import { Store } from "../../Store";
 import { useNavigate } from "react-router-dom";
@@ -34,7 +34,7 @@ function reducer(state, action) {
   }
 }
 
-const ProgramSchoolScreen = () => {
+const ProgramOtherScreen = () => {
   const { state } = useContext(Store);
   const { userInfo } = state;
 
@@ -84,7 +84,7 @@ const ProgramSchoolScreen = () => {
 
   const handleSubmit = async (e) => {
     const userId = userInfo._id;
-    const topic = "school"
+    const topic = "other"
 
     const projectData = {
       userId,
@@ -110,8 +110,7 @@ const ProgramSchoolScreen = () => {
           },
         }
       );
-      console.log(data);
-      navigate(`/program/school/${data.id}`);
+      navigate(`/program/other/${data.id}`);
       dispatch({
         type: "UPDATE_SUCCESS",
       });
@@ -125,7 +124,7 @@ const ProgramSchoolScreen = () => {
   return (
     <div style={{ padding: "0 15px" }}>
       <Helmet>
-        <title>Đề tài cấp trường</title>
+        <title>Đề tài khác</title>
       </Helmet>
       <div style={{ backgroundColor: "#fff", marginBottom: "5px" }}>
         <h3
@@ -136,7 +135,7 @@ const ProgramSchoolScreen = () => {
             alt="logo-title"
             style={{ width: "25px", height: "25px" }}
           />
-          Đề tài cấp trường
+          Đề tài khác
         </h3>
       </div>
 
@@ -149,7 +148,7 @@ const ProgramSchoolScreen = () => {
       >
         <div className={cx("panel")}>
           <div className={cx("panel-heading")}>
-            <b style={{ paddingRight: "8px" }}>Đề tài cấp trường</b>
+            <b style={{ paddingRight: "8px" }}>Đề tài cấp khoa</b>
           </div>
           <div className={cx("panel-body")}>
             <div className={cx("form-group")}>
@@ -247,4 +246,4 @@ const ProgramSchoolScreen = () => {
   );
 };
 
-export default ProgramSchoolScreen;
+export default ProgramOtherScreen;

@@ -66,7 +66,7 @@ export default function SigninScreen() {
         </Helmet>
         <img
           alt="logo"
-          src="/assets/login-logo.png"
+          src="/assets/logo.jpg"
           className="my-3 rounded"
           style={{ width: "120px", height: "120px" }}
         />

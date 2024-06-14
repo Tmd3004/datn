@@ -7,7 +7,7 @@ const projectRouter = express.Router();
 
 projectRouter.get(
   "/",
-  // isAuth,
+  isAuth,
   // isAdmin,
   expressAsyncHandler(async (req, res) => {
     const projects = await ProjectPropose.find();
@@ -39,7 +39,7 @@ projectRouter.get(
 
 projectRouter.post(
   "/create",
-  //isAdmin,
+  // isAdmin,
   isAuth,
   expressAsyncHandler(async (req, res) => {
     const {
@@ -52,7 +52,7 @@ projectRouter.post(
       name,
       workingAgency,
       scientificTitleVi,
-      topic
+      topic,
     } = req.body;
 
     if (!topicNameVi || !topicNameEn) {
@@ -80,7 +80,7 @@ projectRouter.post(
         },
       ],
       present: {},
-      topic
+      topic: topic,
     });
 
     const savedProjectPropose = await newProjectPropose.save();
@@ -92,12 +92,13 @@ projectRouter.post(
 projectRouter.put(
   "/:projectId/infor-general",
   isAuth,
+  // isAdmin,
   expressAsyncHandler(async (req, res) => {
     const { projectId } = req.params;
 
     const {
-      topicNameVi,
-      topicNameEn,
+      topicNameVI,
+      topicNameEN,
       topicSummary,
       topicType,
       researchTime,
@@ -115,8 +116,8 @@ projectRouter.put(
 
     const inforGeneralElelment = project.inforGeneral;
 
-    inforGeneralElelment.topicNameVi = topicNameVi;
-    inforGeneralElelment.topicNameEn = topicNameEn;
+    inforGeneralElelment.topicNameVi = topicNameVI;
+    inforGeneralElelment.topicNameEn = topicNameEN;
     inforGeneralElelment.topicSummary = topicSummary;
     inforGeneralElelment.topicType = topicType;
     inforGeneralElelment.researchTime = researchTime;
@@ -134,6 +135,7 @@ projectRouter.put(
 projectRouter.put(
   "/:projectId/expected-results",
   isAuth,
+  // isAdmin,
   expressAsyncHandler(async (req, res) => {
     const { projectId } = req.params;
 
@@ -163,6 +165,7 @@ projectRouter.put(
 projectRouter.post(
   "/:projectId/add-member",
   isAuth,
+  // isAdmin,
   expressAsyncHandler(async (req, res) => {
     const { projectId } = req.params;
 
@@ -203,6 +206,7 @@ projectRouter.post(
 projectRouter.put(
   "/:projectId/edit-member/:memberId",
   isAuth,
+  // isAdmin,
   expressAsyncHandler(async (req, res) => {
     const { projectId, memberId } = req.params;
 
@@ -239,6 +243,7 @@ projectRouter.put(
 projectRouter.put(
   "/:projectId/presents",
   isAuth,
+  // isAdmin,
   expressAsyncHandler(async (req, res) => {
     const { projectId } = req.params;
 
@@ -266,6 +271,7 @@ projectRouter.put(
 projectRouter.put(
   "/:projectId/update-status",
   isAuth,
+  // isAdmin,
   expressAsyncHandler(async (req, res) => {
     const { projectId } = req.params;
 
@@ -293,10 +299,20 @@ projectRouter.put(
 projectRouter.put(
   "/:projectId/accept-topic",
   isAuth,
+  // isAdmin,
   expressAsyncHandler(async (req, res) => {
     const { projectId } = req.params;
 
-    const { status, reviewDay } = req.body;
+    const {
+      status,
+      reviewDay,
+      userID,
+      name,
+      email,
+      workingAgency,
+      scientificTitleVi,
+      reviewMessage,
+    } = req.body;
 
     const validStatuses = ["propose", "handle", "accept"];
     if (!validStatuses.includes(status)) {
@@ -311,6 +327,14 @@ projectRouter.put(
 
     project.status = status;
     project.reviewDay = reviewDay;
+    project.reviews.push({
+      userId: userID,
+      name,
+      email,
+      workingAgency,
+      scientificTitleVi,
+      review: reviewMessage,
+    });
 
     await project.save();
 

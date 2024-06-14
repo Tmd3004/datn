@@ -104,6 +104,18 @@ const presentSchema = new mongoose.Schema(
   }
 );
 
+const reviewSchema = new mongoose.Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
+  name: String,
+  email: { type: String },
+  workingAgency: String,
+  scientificTitleVi: String,
+  review: String,
+});
+
 const userProjectPropose = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
   inforGeneral: inforGeneralSchema,
@@ -117,6 +129,7 @@ const userProjectPropose = new mongoose.Schema({
   },
   topic: { type: String, enum: ["school", "faculty", "other"] },
   reviewDay: { type: String },
+  reviews: [reviewSchema],
 });
 
 const ProjectPropose = mongoose.model("ProjectPropose", userProjectPropose);
