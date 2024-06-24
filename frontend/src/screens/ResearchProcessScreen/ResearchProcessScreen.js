@@ -128,7 +128,7 @@ function ListTopicModel(props) {
       centered
     >
       <Modal.Header className={cx("model-header")}>
-        <span className={cx("model-title")}>BKDN</span>
+        <span className={cx("model-title")}>DTVT</span>
 
         <button className={cx("close-btn")} onClick={props.onHide}>
           <img
@@ -543,7 +543,7 @@ function EditListModel(props) {
       centered
     >
       <Modal.Header className={cx("model-header")}>
-        <span className={cx("model-title")}>BKDN</span>
+        <span className={cx("model-title")}>DTVT</span>
 
         <button className={cx("close-btn")} onClick={props.onHide}>
           <img
@@ -960,7 +960,7 @@ function ResultTopicModel(props) {
       centered
     >
       <Modal.Header className={cx("model-header")}>
-        <span className={cx("model-title")}>BKDN</span>
+        <span className={cx("model-title")}>DTVT</span>
 
         <button className={cx("close-btn")}>
           <img
@@ -1329,7 +1329,7 @@ function EditResultModal(props) {
       centered
     >
       <Modal.Header className={cx("model-header")}>
-        <span className={cx("model-title")}>BKDN</span>
+        <span className={cx("model-title")}>DTVT</span>
 
         <button className={cx("close-btn")}>
           <img

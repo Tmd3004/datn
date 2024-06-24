@@ -5,7 +5,7 @@ export const baseUrl = () =>
     ? process.env.BASE_URL
     : process.env.NODE_ENV !== 'production'
     ? 'http://103.161.112.186:3000'
-    : 'https://yourdomain.com';
+    : 'http://103.161.112.186:3000/signin';
 
 export const generateToken = (user) => {
   return jwt.sign(

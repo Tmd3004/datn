@@ -390,9 +390,9 @@ const ViewAndPrintScreen = () => {
                       <tr>
                         <td width="30%" className={cx("table-header")}>
                           <img
-                            src="/assets/logo_vi.png"
+                            src="/assets/logo.jpg"
                             alt="logo_vi"
-                            width="70%"
+                            width="30%"
                           />
                         </td>
                         <td className={cx("table-header")}></td>

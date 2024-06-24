@@ -41,5 +41,5 @@ app.use((err, req, res, next) => {
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
-  console.log(`serve at http://103.161.112.186:${port}`);
+  console.log(`server at http://103.161.112.186:${port}`);
 });

@@ -55,8 +55,8 @@ const DefaultLayout = () => {
       <Link to="/">
         <img
           alt="logo"
-          src="/assets/logo.png"
-          style={{ maxHeight: "30px", paddingRight: "10px" }}
+          src="/assets/logo.jpg"
+          style={{ maxHeight: "35px", paddingRight: "10px" }}
         />
       </Link>
 

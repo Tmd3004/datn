@@ -184,7 +184,7 @@ function AddMemberViModel(props) {
       centered
     >
       <Modal.Header className={cx("model-header")}>
-        <span className={cx("model-title")}>BKDN</span>
+        <span className={cx("model-title")}>DTVT</span>
 
         <button className={cx("close-btn")}>
           <img
@@ -472,7 +472,7 @@ function EditMemberViModel(props) {
       centered
     >
       <Modal.Header className={cx("model-header")}>
-        <span className={cx("model-title")}>BKDN</span>
+        <span className={cx("model-title")}>DTVT</span>
 
         <button className={cx("close-btn")}>
           <img
@@ -779,6 +779,9 @@ const RegisterProgramScreen = () => {
         data[0].inforGeneral?.topicType
           ? setTopicType(data[0].inforGeneral.topicType)
           : setTopicType("");
+          data[0].inforGeneral?.fundingFull
+          ? setFundingFull(data[0].inforGeneral.fundingFull)
+          : setFundingFull("");
         dispatch({ type: "FETCH_SUCCESS" });
       } catch (err) {
         dispatch({
@@ -1142,7 +1145,7 @@ const RegisterProgramScreen = () => {
   };
 
   return (
-    <div style={{ padding: "0 15px", height: "100%" }}>
+    <div style={{ padding: "0 15px", minHeight: "100vh" }}>
       <Helmet>
         <title>Đăng ký đề tài</title>
       </Helmet>
@@ -1515,7 +1518,7 @@ const RegisterProgramScreen = () => {
                           type="radio"
                           name="selectType"
                           onChange={(e) => setFundingFull(e.target.value)}
-                          checked={dataInfor?.fundingFull === "Có"}
+                          checked={fundingFull === "Có"}
                           value="Có"
                           style={{ marginRight: "6px" }}
                         />
@@ -1527,7 +1530,7 @@ const RegisterProgramScreen = () => {
                           type="radio"
                           name="selectType"
                           onChange={(e) => setFundingFull(e.target.value)}
-                          checked={dataInfor?.fundingFull === "Không"}
+                          checked={fundingFull === "Không"}
                           value="Không"
                           style={{ marginRight: "6px" }}
                         />
@@ -2918,9 +2921,7 @@ const RegisterProgramScreen = () => {
                   <div className={cx("panel-heading")}>
                     <b style={{ paddingRight: "8px" }}>B. Nộp đề tài</b>
                   </div>
-
-                  <div className={cx("panel-body")}>
-                    <div className={cx("form-group")}>
+                  <div className={cx("form-group")}>
                       <div
                         className="d-flex justify-content-center align-items-center"
                         style={{ width: "100%" }}
@@ -2936,19 +2937,84 @@ const RegisterProgramScreen = () => {
                         </button>
                       </div>
                     </div>
-                  </div>
 
                   {/* {dataInfor?.topicSummary &&
-                dataInfor?.topicType &&
-                dataInfor?.researchTime &&
-                dataInfor?.hostOrganization &&
-                dataExpectedResults?.train &&
-                dataExpectedResults?.projectAnnounced &&
-                dataPresent?.presentVi &&
-                dataPresent?.presentEn &&
-                dataPresent?.fundingVi &&
-                dataPresent?.fundingEn ? (
-                  <div className={cx("panel-body")}>
+                  dataInfor?.topicType &&
+                  dataInfor?.researchTime &&
+                  dataInfor?.hostOrganization &&
+                  dataExpectedResults?.train &&
+                  dataExpectedResults?.projectAnnounced &&
+                  dataPresent?.presentVi &&
+                  dataPresent?.presentEn &&
+                  dataPresent?.fundingVi &&
+                  dataPresent?.fundingEn ? (
+                    <div className={cx("panel-body")}>
+                      <div className={cx("form-group")}>
+                        <div
+                          className="d-flex justify-content-center align-items-center"
+                          style={{ width: "100%" }}
+                        >
+                          <button
+                            className={cx("save-btn")}
+                            onClick={submitHandlerInInfor}
+                          >
+                            <FaSave style={{ marginRight: "4px" }} /> Lưu lại
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className={cx("panel-body")}>
+                      <p>
+                        <b>Đề tài không được nộp do:</b>
+                      </p>
+                      {dataInfor?.topicSummary ? (
+                        ""
+                      ) : (
+                        <p>Không có Tóm tắt đề tài Tiếng Việt</p>
+                      )}
+                      {dataInfor?.topicType ? "" : <p>Không có loại đề tài</p>}
+                      {dataInfor?.researchTime ? (
+                        ""
+                      ) : (
+                        <p>Không có thời gian nghiên cứu đề tài</p>
+                      )}
+                      {dataInfor?.hostOrganization ? (
+                        ""
+                      ) : (
+                        <p>Không có tổ chức chủ trì đề tài</p>
+                      )}
+                      {dataExpectedResults?.train ? (
+                        ""
+                      ) : (
+                        <p>Không có kết quả đề tài</p>
+                      )}
+                      {dataExpectedResults?.projectAnnounced ? (
+                        ""
+                      ) : (
+                        <p>Không có kết quả công bố</p>
+                      )}
+                      {dataPresent?.presentVi ? (
+                        ""
+                      ) : (
+                        <p>Không có thuyết minh đề tài (Tiếng Việt)</p>
+                      )}
+                      {dataPresent?.presentEn ? (
+                        ""
+                      ) : (
+                        <p>Không có thuyết minh đề tài (Tiếng Anh)</p>
+                      )}
+                      {dataPresent?.fundingVi ? (
+                        ""
+                      ) : (
+                        <p>Không có dự toán kinh phí (Tiếng Việt)</p>
+                      )}
+                      {dataPresent?.fundingEn ? (
+                        ""
+                      ) : (
+                        <p>Không có dự toán kinh phí (Tiếng Anh)</p>
+                      )}
+                      
                     <div className={cx("form-group")}>
                       <div
                         className="d-flex justify-content-center align-items-center"
@@ -2956,69 +3022,42 @@ const RegisterProgramScreen = () => {
                       >
                         <button
                           className={cx("save-btn")}
-                          onClick={submitHandlerInInfor}
+                          disabled={true}
+                          style={{opacity: 0.5}}
                         >
-                          <FaSave style={{ marginRight: "4px" }} /> Lưu lại
+                          <FaUpload
+                            style={{ marginRight: "4px", marginBottom: "4px" }}
+                          />{" "}
+                          Nộp Đề tài
                         </button>
                       </div>
                     </div>
-                  </div>
-                ) : (
-                  <div className={cx("panel-body")}>
-                    <p>
-                      <b>Đề tài không được nộp do:</b>
-                    </p>
-                    {dataInfor?.topicSummary ? (
-                      ""
-                    ) : (
-                      <p>Không có Tóm tắt đề tài Tiếng Việt</p>
-                    )}
-                    {dataInfor?.topicType ? "" : <p>Không có loại đề tài</p>}
-                    {dataInfor?.researchTime ? (
-                      ""
-                    ) : (
-                      <p>Không có thời gian nghiên cứu đề tài</p>
-                    )}
-                    {dataInfor?.hostOrganization ? (
-                      ""
-                    ) : (
-                      <p>Không có tổ chức chủ trì đề tài</p>
-                    )}
-                    {dataExpectedResults?.train ? (
-                      ""
-                    ) : (
-                      <p>Không có kết quả đề tài</p>
-                    )}
-                    {dataExpectedResults?.projectAnnounced ? (
-                      ""
-                    ) : (
-                      <p>Không có kết quả công bố</p>
-                    )}
-                    {dataPresent?.presentVi ? (
-                      ""
-                    ) : (
-                      <p>Không có thuyết minh đề tài (Tiếng Việt)</p>
-                    )}
-                    {dataPresent?.presentEn ? (
-                      ""
-                    ) : (
-                      <p>Không có thuyết minh đề tài (Tiếng Anh)</p>
-                    )}
-                    {dataPresent?.fundingVi ? (
-                      ""
-                    ) : (
-                      <p>Không có dự toán kinh phí (Tiếng Việt)</p>
-                    )}
-                    {dataPresent?.fundingEn ? (
-                      ""
-                    ) : (
-                      <p>Không có dự toán kinh phí (Tiếng Anh)</p>
-                    )}
-                  </div>
-                )} */}
+                  
+
+                    </div>
+                  )} */}
                 </div>
               ) : (
+                // <div className={cx("panel-body")}>
+                //     <div className={cx("form-group")}>
+                //       <div
+                //         className="d-flex justify-content-center align-items-center"
+                //         style={{ width: "100%" }}
+                //       >
+                //         <button
+                //           className={cx("save-btn")}
+                //           onClick={handleSubmitProject}
+                //         >
+                //           <FaUpload
+                //             style={{ marginRight: "4px", marginBottom: "4px" }}
+                //           />{" "}
+                //           Nộp Đề tài
+                //         </button>
+                //       </div>
+                //     </div>
+                //   </div>
                 ""
+
               )}
 
               {status !== "propose" && userInfo.isAdmin ? (
