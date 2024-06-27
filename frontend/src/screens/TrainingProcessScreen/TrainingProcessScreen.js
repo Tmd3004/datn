@@ -525,7 +525,7 @@ function EditedModal(props) {
       <Modal.Header className={cx("model-header")}>
         <span className={cx("model-title")}>DTVT</span>
 
-        <button className={cx("close-btn")}>
+        <button className={cx("close-btn")} onClick={props.onHide}>
           <img
             src="/assets/icon-close.png"
             alt="close-btn"
@@ -796,6 +796,7 @@ const TrainingProcessScreen = () => {
   const [dataUser, setDataUser] = useState([]);
 
   const [editModelShow, setEditModelShow] = useState(false);
+  const [deleteClick, setDeleteClick] = useState(false);
   const [selectTraining, setSelectTraining] = useState({});
 
   useEffect(() => {
@@ -815,11 +816,33 @@ const TrainingProcessScreen = () => {
       }
     };
     fetchData();
-  }, [modalShow || editModelShow]);
+  }, [modalShow || editModelShow || deleteClick]);
 
   const handleEditClick = (data) => {
     setSelectTraining(data);
     setEditModelShow(true);
+  };
+
+  const handleDelete = async (data) => {
+    try {
+      dispatch({ type: "UPLOAD_REQUEST" });
+      await axios.delete(
+        `${baseUrl}/users/user-trainings/${userInfo._id}/${data._id}`,
+        {
+          headers: {
+            authorization: `Bearer ${userInfo.token}`,
+          },
+        }
+      );
+      dispatch({
+        type: "UPDATE_SUCCESS",
+      });
+      toast.success("Delete Training User Successfully");
+      setDeleteClick(!deleteClick);
+    } catch (err) {
+      toast.error(getError(err));
+      dispatch({ type: "UPDATE_FAIL" });
+    }
   };
 
   return (
@@ -1005,7 +1028,10 @@ const TrainingProcessScreen = () => {
                             >
                               <FaRegEdit /> Sửa
                             </button>
-                            <button className={cx("delete-btn")}>
+                            <button
+                              className={cx("delete-btn")}
+                              onClick={() => handleDelete(item)}
+                            >
                               <MdDeleteOutline /> Xoá
                             </button>
                           </div>

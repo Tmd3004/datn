@@ -56,6 +56,7 @@ function HomeScreen() {
   const [data, setData] = useState([]);
   const [users, setUsers] = useState([]);
   const [clickUpdate, setClickUpdate] = useState(false);
+  const [deleteClick, setDeleteClick] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -100,7 +101,7 @@ function HomeScreen() {
       }
     };
     fetchData();
-  }, [clickUpdate]);
+  }, [clickUpdate || deleteClick]);
 
   const updateAdmin = async (data) => {
     try {
@@ -119,6 +120,28 @@ function HomeScreen() {
         type: "UPDATE_SUCCESS",
       });
       toast.success("User updated to admin successfully!");
+    } catch (err) {
+      toast.error(getError(err));
+      dispatch({ type: "UPDATE_FAIL" });
+    }
+  };
+
+  const handleDelete = async (data) => {
+    try {
+      dispatch({ type: "UPLOAD_REQUEST" });
+      await axios.delete(
+        `${baseUrl}/project/user-prizes/${userInfo._id}/${data._id}`,
+        {
+          headers: {
+            authorization: `Bearer ${userInfo.token}`,
+          },
+        }
+      );
+      dispatch({
+        type: "UPDATE_SUCCESS",
+      });
+      toast.success("Delete Project Successfully");
+      setDeleteClick(!deleteClick);
     } catch (err) {
       toast.error(getError(err));
       dispatch({ type: "UPDATE_FAIL" });
@@ -497,7 +520,7 @@ function HomeScreen() {
                                         Sửa
                                       </Link>
                                     </button>
-                                    <button className={cx("delete-btn")}>
+                                    <button className={cx("delete-btn")} onClick={() => handleDelete(item)}>
                                       <Link className={cx("item-link")}>
                                         <MdDeleteOutline
                                           size={20}
@@ -521,7 +544,7 @@ function HomeScreen() {
                                         Sửa
                                       </Link>
                                     </button>
-                                    <button className={cx("delete-btn")}>
+                                    <button className={cx("delete-btn")} onClick={() => handleDelete(item)}>
                                       <Link className={cx("item-link")}>
                                         <MdDeleteOutline
                                           size={20}
@@ -545,7 +568,7 @@ function HomeScreen() {
                                         Sửa
                                       </Link>
                                     </button>
-                                    <button className={cx("delete-btn")}>
+                                    <button className={cx("delete-btn")} onClick={() => handleDelete(item)}>
                                       <Link className={cx("item-link")}>
                                         <MdDeleteOutline
                                           size={20}

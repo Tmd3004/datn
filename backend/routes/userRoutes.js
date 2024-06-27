@@ -39,16 +39,14 @@ userRouter.put(
   "/update-admin/:id",
   isAuth,
   expressAsyncHandler(async (req, res) => {
-    
-      const user = await User.findById(req.params.id);
-      if (user) {
-        user.isAdmin = true;
-        await user.save();
-        res.status(200).send({ message: "User updated successfully", user });
-      } else {
-        res.status(404).send({ message: "User Not Found" });
-      }
-    
+    const user = await User.findById(req.params.id);
+    if (user) {
+      user.isAdmin = true;
+      await user.save();
+      res.status(200).send({ message: "User updated successfully", user });
+    } else {
+      res.status(404).send({ message: "User Not Found" });
+    }
   })
 );
 
@@ -382,6 +380,25 @@ userRouter.put(
   })
 );
 
+userRouter.delete(
+  "/user-trainings/:userId/:trainingId",
+  isAuth,
+  expressAsyncHandler(async (req, res) => {
+    const { userId, trainingId } = req.params;
+
+    try {
+      await Training.updateOne(
+        { userId: userId },
+        { $pull: { training: { _id: trainingId } } }
+      );
+      res.status(200).send("Training deleted successfully");
+    } catch (error) {
+      console.error("Error deleting training:", error);
+      res.status(500).send("Error deleting training");
+    }
+  })
+);
+
 userRouter.get(
   "/user-workings/:userId",
   expressAsyncHandler(async (req, res) => {
@@ -445,6 +462,25 @@ userRouter.put(
     await userWorking.save();
 
     res.send({ message: "Update User Working Success" });
+  })
+);
+
+userRouter.delete(
+  "/user-workings/:userId/:trainingId",
+  isAuth,
+  expressAsyncHandler(async (req, res) => {
+    const { userId, trainingId } = req.params;
+
+    try {
+      await Working.updateOne(
+        { userId: userId },
+        { $pull: { working: { _id: trainingId } } }
+      );
+      res.status(200).send("Working deleted successfully");
+    } catch (error) {
+      console.error("Error deleting working:", error);
+      res.status(500).send("Error deleting working");
+    }
   })
 );
 
@@ -565,6 +601,25 @@ userRouter.put(
   })
 );
 
+userRouter.delete(
+  "/user-researches/:userId/:listResearchId/list",
+  isAuth,
+  expressAsyncHandler(async (req, res) => {
+    const { userId, listResearchId } = req.params;
+
+    try {
+      await Research.updateOne(
+        { userId: userId },
+        { $pull: { listTopics: { _id: listResearchId } } }
+      );
+      res.status(200).send("List research deleted successfully");
+    } catch (error) {
+      console.error("Error deleting list research:", error);
+      res.status(500).send("Error deleting list research");
+    }
+  })
+);
+
 userRouter.post(
   "/user-researches/:userId/result-research",
   isAuth,
@@ -657,6 +712,25 @@ userRouter.put(
   })
 );
 
+userRouter.delete(
+  "/user-researches/:userId/:resultId/result",
+  isAuth,
+  expressAsyncHandler(async (req, res) => {
+    const { userId, resultId } = req.params;
+
+    try {
+      await Research.updateOne(
+        { userId: userId },
+        { $pull: { results: { _id: resultId } } }
+      );
+      res.status(200).send("Result research deleted successfully");
+    } catch (error) {
+      console.error("Error deleting result research:", error);
+      res.status(500).send("Error deleting result research");
+    }
+  })
+);
+
 userRouter.get(
   "/user-prizes/:userId",
   expressAsyncHandler(async (req, res) => {
@@ -715,6 +789,25 @@ userRouter.put(
     await userPrize.save();
 
     res.send({ message: "Update User Prize Success" });
+  })
+);
+
+userRouter.delete(
+  "/user-prizes/:userId/:prizeId",
+  isAuth,
+  expressAsyncHandler(async (req, res) => {
+    const { userId, prizeId } = req.params;
+
+    try {
+      await Prize.updateOne(
+        { userId: userId },
+        { $pull: { prizes: { _id: prizeId } } }
+      );
+      res.status(200).send("Prize deleted successfully");
+    } catch (error) {
+      console.error("Error deleting prize:", error);
+      res.status(500).send("Error deleting prize");
+    }
   })
 );
 

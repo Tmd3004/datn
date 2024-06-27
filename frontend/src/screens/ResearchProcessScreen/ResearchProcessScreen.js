@@ -962,7 +962,7 @@ function ResultTopicModel(props) {
       <Modal.Header className={cx("model-header")}>
         <span className={cx("model-title")}>DTVT</span>
 
-        <button className={cx("close-btn")}>
+        <button className={cx("close-btn")} onClick={props.onHide}>
           <img
             src="/assets/icon-close.png"
             alt="close-btn"
@@ -1331,7 +1331,7 @@ function EditResultModal(props) {
       <Modal.Header className={cx("model-header")}>
         <span className={cx("model-title")}>DTVT</span>
 
-        <button className={cx("close-btn")}>
+        <button className={cx("close-btn")} onClick={props.onHide}>
           <img
             src="/assets/icon-close.png"
             alt="close-btn"
@@ -1614,7 +1614,8 @@ const ResearchProcessScreen = () => {
 
   const [activeNav, setActiveNav] = useState("#");
 
-  console.log(resultsResearch);
+  const [deleteClickList, setDeleteClickList] = useState(false);
+  const [deleteClickResult, setDeleteClickResult] = useState(false);
 
   useEffect(() => {
     setActiveNav(window.location.href.slice(38));
@@ -1639,7 +1640,13 @@ const ResearchProcessScreen = () => {
       }
     };
     fetchData();
-  }, [modalShow || editListModelShow || resultModelShow]);
+  }, [
+    modalShow ||
+      editListModelShow ||
+      resultModelShow ||
+      deleteClickList ||
+      deleteClickResult,
+  ]);
 
   const handleSubmitMainResearch = async (e) => {
     const mainResearchData = {
@@ -1703,6 +1710,50 @@ const ResearchProcessScreen = () => {
       "Khác(Sách chuyên khảo, bằng sáng chế, giải thưởng khoa học)"
     )
   );
+
+  const handleDeleteListResearch = async (data) => {
+    try {
+      dispatch({ type: "UPLOAD_REQUEST" });
+      await axios.delete(
+        `${baseUrl}/users/user-researches/${userInfo._id}/${data._id}/list`,
+        {
+          headers: {
+            authorization: `Bearer ${userInfo.token}`,
+          },
+        }
+      );
+      dispatch({
+        type: "UPDATE_SUCCESS",
+      });
+      toast.success("Delete List Research Successfully");
+      setDeleteClickList(!deleteClickList);
+    } catch (err) {
+      toast.error(getError(err));
+      dispatch({ type: "UPDATE_FAIL" });
+    }
+  };
+
+  const handleDeleteResultResearch = async (data) => {
+    try {
+      dispatch({ type: "UPLOAD_REQUEST" });
+      await axios.delete(
+        `${baseUrl}/users/user-researches/${userInfo._id}/${data._id}/result`,
+        {
+          headers: {
+            authorization: `Bearer ${userInfo.token}`,
+          },
+        }
+      );
+      dispatch({
+        type: "UPDATE_SUCCESS",
+      });
+      toast.success("Delete Result Research Successfully");
+      setDeleteClickResult(!deleteClickResult);
+    } catch (err) {
+      toast.error(getError(err));
+      dispatch({ type: "UPDATE_FAIL" });
+    }
+  };
 
   return (
     <div style={{ padding: "0 15px" }}>
@@ -1986,7 +2037,12 @@ const ResearchProcessScreen = () => {
                                   >
                                     <FaRegEdit /> Sửa
                                   </button>
-                                  <button className={cx("delete-btn")}>
+                                  <button
+                                    className={cx("delete-btn")}
+                                    onClick={() =>
+                                      handleDeleteListResearch(item)
+                                    }
+                                  >
                                     <MdDeleteOutline /> Xoá
                                   </button>
                                 </div>
@@ -2099,7 +2155,14 @@ const ResearchProcessScreen = () => {
                                 </span>
                               </td>
                               <td>
-                                <span className={cx("link-delete")}>Xoá</span>
+                                <span
+                                  className={cx("link-delete")}
+                                  onClick={() =>
+                                    handleDeleteResultResearch(item)
+                                  }
+                                >
+                                  Xoá
+                                </span>
                               </td>
                             </tr>
                           ))

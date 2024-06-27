@@ -130,20 +130,22 @@ function AddMemberViModel(props) {
   const handleChange = (e) => {
     setSearch(e.target.value);
     const searchData = users.filter((item) =>
-      item?.name.toLowerCase().includes(e.target.value.toLowerCase())
+      item?.name?.toLowerCase().includes(e.target.value.toLowerCase())
     );
     setDataSearch(searchData);
   };
+
+  console.log(dataSearch);
 
   const handleClick = (data) => {
     setUserId(data.userId);
     setScientificTitleVi(data.scientificTitleVi);
     setName(data.name);
     setEmail(data.email);
-    setWorkingAgency(data.school.name);
+    setWorkingAgency(data.school?.name);
     setDataSearch([]);
     setSearch(
-      `${data.scientificTitleVi}. ${data.name} - ${data.email} - ${data.school.name}`
+      `${data.scientificTitleVi}. ${data.name} - ${data.email} - ${data.school?.name}`
     );
   };
 
@@ -168,6 +170,14 @@ function AddMemberViModel(props) {
       dispatch({
         type: "UPDATE_SUCCESS",
       });
+      setUserId("");
+      setName("");
+      setEmail("");
+      setRole("");
+      setMonthOfTopic("");
+      setScientificTitleVi("");
+      setWorkingAgency("");
+      setSearch("");
       props.onHide();
       toast.success("Add member successfully");
     } catch (err) {
@@ -186,7 +196,7 @@ function AddMemberViModel(props) {
       <Modal.Header className={cx("model-header")}>
         <span className={cx("model-title")}>DTVT</span>
 
-        <button className={cx("close-btn")}>
+        <button className={cx("close-btn")} onClick={props.onHide}>
           <img
             src="/assets/icon-close.png"
             alt="close-btn"
@@ -419,7 +429,7 @@ function EditMemberViModel(props) {
   const handleChange = (e) => {
     setSearch(e.target.value);
     const searchData = users.filter((item) =>
-      item.name.toLowerCase().includes(e.target.value.toLowerCase())
+      item?.name?.toLowerCase().includes(e.target.value.toLowerCase())
     );
     setDataSearch(searchData);
   };
@@ -474,7 +484,7 @@ function EditMemberViModel(props) {
       <Modal.Header className={cx("model-header")}>
         <span className={cx("model-title")}>DTVT</span>
 
-        <button className={cx("close-btn")}>
+        <button className={cx("close-btn")} onClick={props.onHide}>
           <img
             src="/assets/icon-close.png"
             alt="close-btn"
@@ -656,6 +666,7 @@ const RegisterProgramScreen = () => {
     });
 
   const [editModelShow, setEditModelShow] = useState(false);
+  const [deleteClick, setDeleteClick] = useState(false);
   const [selectEdit, setSelectEdit] = useState({});
 
   const [navActive, setNavActive] = useState("");
@@ -779,7 +790,7 @@ const RegisterProgramScreen = () => {
         data[0].inforGeneral?.topicType
           ? setTopicType(data[0].inforGeneral.topicType)
           : setTopicType("");
-          data[0].inforGeneral?.fundingFull
+        data[0].inforGeneral?.fundingFull
           ? setFundingFull(data[0].inforGeneral.fundingFull)
           : setFundingFull("");
         dispatch({ type: "FETCH_SUCCESS" });
@@ -791,7 +802,7 @@ const RegisterProgramScreen = () => {
       }
     };
     fetchData();
-  }, [addMemberVi || editModelShow]);
+  }, [addMemberVi || editModelShow || deleteClick]);
 
   const submitHandlerInInfor = async (e) => {
     const topicNameVI = dataInfor?.topicNameVi
@@ -1076,6 +1087,25 @@ const RegisterProgramScreen = () => {
     } catch (err) {
       toast.error(getError(err));
       dispatch({ type: "UPLOAD_FAIL", payload: getError(err) });
+    }
+  };
+
+  const handleDelete = async (data) => {
+    try {
+      dispatch({ type: "UPLOAD_REQUEST" });
+      await axios.delete(`${baseUrl}/project/${id}/delete-member/${data._id}`, {
+        headers: {
+          authorization: `Bearer ${userInfo.token}`,
+        },
+      });
+      dispatch({
+        type: "UPDATE_SUCCESS",
+      });
+      toast.success("Delete Member Successfully");
+      setDeleteClick(!deleteClick);
+    } catch (err) {
+      toast.error(getError(err));
+      dispatch({ type: "UPDATE_FAIL" });
     }
   };
 
@@ -2414,22 +2444,41 @@ const RegisterProgramScreen = () => {
                                 </div>
                               </td>
                               {status === "propose" ? (
-                                <td>
-                                  <div className="d-flex flex-column">
-                                    <button
-                                      className={cx("edit-btn")}
-                                      onClick={() => handleEditClick(item)}
-                                    >
-                                      <FaRegEdit
-                                        style={{
-                                          marginBottom: "2px",
-                                          marginRight: "2px",
-                                        }}
-                                      />
-                                      Sửa
-                                    </button>
-                                  </div>
-                                </td>
+                                <>
+                                  <td>
+                                    <div className="d-flex flex-column">
+                                      <button
+                                        className={cx("edit-btn")}
+                                        onClick={() => handleEditClick(item)}
+                                      >
+                                        <FaRegEdit
+                                          style={{
+                                            marginBottom: "2px",
+                                            marginRight: "2px",
+                                          }}
+                                        />
+                                        Sửa
+                                      </button>
+                                    </div>
+                                  </td>
+
+                                  <td>
+                                    <div className="d-flex flex-column">
+                                      <button
+                                        className={cx("delete-btn")}
+                                        onClick={() => handleDelete(item)}
+                                      >
+                                        <FaRegEdit
+                                          style={{
+                                            marginBottom: "2px",
+                                            marginRight: "2px",
+                                          }}
+                                        />
+                                        Xoá
+                                      </button>
+                                    </div>
+                                  </td>
+                                </>
                               ) : (
                                 ""
                               )}
@@ -2922,21 +2971,21 @@ const RegisterProgramScreen = () => {
                     <b style={{ paddingRight: "8px" }}>B. Nộp đề tài</b>
                   </div>
                   <div className={cx("form-group")}>
-                      <div
-                        className="d-flex justify-content-center align-items-center"
-                        style={{ width: "100%" }}
+                    <div
+                      className="d-flex justify-content-center align-items-center"
+                      style={{ width: "100%" }}
+                    >
+                      <button
+                        className={cx("save-btn")}
+                        onClick={handleSubmitProject}
                       >
-                        <button
-                          className={cx("save-btn")}
-                          onClick={handleSubmitProject}
-                        >
-                          <FaUpload
-                            style={{ marginRight: "4px", marginBottom: "4px" }}
-                          />{" "}
-                          Nộp Đề tài
-                        </button>
-                      </div>
+                        <FaUpload
+                          style={{ marginRight: "4px", marginBottom: "4px" }}
+                        />{" "}
+                        Nộp Đề tài
+                      </button>
                     </div>
+                  </div>
 
                   {/* {dataInfor?.topicSummary &&
                   dataInfor?.topicType &&
@@ -3057,7 +3106,6 @@ const RegisterProgramScreen = () => {
                 //     </div>
                 //   </div>
                 ""
-
               )}
 
               {status !== "propose" && userInfo.isAdmin ? (

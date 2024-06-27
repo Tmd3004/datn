@@ -633,6 +633,7 @@ const WorkingProcessScreen = () => {
   const [dataUser, setDataUser] = useState([]);
 
   const [editModelShow, setEditModelShow] = useState(false);
+  const [deleteClick, setDeleteClick] = useState(false);
   const [selectWorking, setSelectWorking] = useState({});
 
   useEffect(() => {
@@ -652,11 +653,33 @@ const WorkingProcessScreen = () => {
       }
     };
     fetchData();
-  }, [modalShow || editModelShow]);
+  }, [modalShow || editModelShow || deleteClick]);
 
   const handleEditClick = (data) => {
     setSelectWorking(data);
     setEditModelShow(true);
+  };
+
+  const handleDelete = async (data) => {
+    try {
+      dispatch({ type: "UPLOAD_REQUEST" });
+      await axios.delete(
+        `${baseUrl}/users/user-workings/${userInfo._id}/${data._id}`,
+        {
+          headers: {
+            authorization: `Bearer ${userInfo.token}`,
+          },
+        }
+      );
+      dispatch({
+        type: "UPDATE_SUCCESS",
+      });
+      toast.success("Delete Working User Successfully");
+      setDeleteClick(!deleteClick);
+    } catch (err) {
+      toast.error(getError(err));
+      dispatch({ type: "UPDATE_FAIL" });
+    }
   };
 
   return (
@@ -827,7 +850,7 @@ const WorkingProcessScreen = () => {
                             <button className={cx("edit-btn")} onClick={() => handleEditClick(item)}>
                               <FaRegEdit /> Sửa
                             </button>
-                            <button className={cx("delete-btn")}>
+                            <button className={cx("delete-btn")} onClick={() => handleDelete(item)}>
                               <MdDeleteOutline /> Xoá
                             </button>
                           </div>

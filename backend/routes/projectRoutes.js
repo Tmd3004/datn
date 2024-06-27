@@ -37,6 +37,25 @@ projectRouter.get(
   })
 );
 
+
+projectRouter.delete(
+  "/user-project/:userId/:projectId",
+  isAuth,
+  expressAsyncHandler(async (req, res) => {
+    const { userId, projectId } = req.params;
+
+    try {
+      await ProjectPropose.updateOne(
+        { userId: userId },
+        { $pull:  { _id: projectId }  }
+      );
+      res.status(200).send("Project deleted successfully");
+    } catch (error) {
+      console.error("Error deleting project:", error);
+      res.status(500).send("Error deleting project");
+    }
+  })
+);
 projectRouter.post(
   "/create",
   // isAdmin,
@@ -237,6 +256,25 @@ projectRouter.put(
     await project.save();
 
     res.send({ message: "Add Member Success!" });
+  })
+);
+
+projectRouter.delete(
+  "/:projectId/delete-member/:memberId",
+  isAuth,
+  expressAsyncHandler(async (req, res) => {
+    const { projectId, memberId } = req.params;
+
+    try {
+      await ProjectPropose.updateOne(
+        { _id: projectId },
+        { $pull: { members: { _id: memberId } } }
+      );
+      res.status(200).send("Member deleted successfully");
+    } catch (error) {
+      console.error("Error deleting member:", error);
+      res.status(500).send("Error deleting member");
+    }
   })
 );
 

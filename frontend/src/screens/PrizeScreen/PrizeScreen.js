@@ -59,8 +59,7 @@ const PrizeScreen = () => {
   const [year, setYear] = useState("");
   const [edit, setEdit] = useState(false);
   const [selectEditId, setSelectEditId] = useState("");
-
-  console.log(selectEditId);
+  const [deleteClick, setDeleteClick] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -79,7 +78,7 @@ const PrizeScreen = () => {
       }
     };
     fetchData();
-  }, [modalShow || edit]);
+  }, [modalShow || edit || deleteClick]);
 
   const handleAddPrize = async (e) => {
     const prizeData = {
@@ -135,6 +134,28 @@ const PrizeScreen = () => {
         type: "UPDATE_SUCCESS",
       });
       toast.success("Add Training Process Successfully");
+    } catch (err) {
+      toast.error(getError(err));
+      dispatch({ type: "UPDATE_FAIL" });
+    }
+  };
+
+  const handleDelete = async (data) => {
+    try {
+      dispatch({ type: "UPLOAD_REQUEST" });
+      await axios.delete(
+        `${baseUrl}/users/user-prizes/${userInfo._id}/${data._id}`,
+        {
+          headers: {
+            authorization: `Bearer ${userInfo.token}`,
+          },
+        }
+      );
+      dispatch({
+        type: "UPDATE_SUCCESS",
+      });
+      toast.success("Delete Prize Successfully");
+      setDeleteClick(!deleteClick);
     } catch (err) {
       toast.error(getError(err));
       dispatch({ type: "UPDATE_FAIL" });
@@ -303,7 +324,12 @@ const PrizeScreen = () => {
                           </span>
                         </td>
                         <td>
-                          <span className={cx("link-delete")}>Xoá</span>
+                          <span
+                            className={cx("link-delete")}
+                            onClick={() => handleDelete(item)}
+                          >
+                            Xoá
+                          </span>
                         </td>
                       </tr>
                     ))
