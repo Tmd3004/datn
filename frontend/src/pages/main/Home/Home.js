@@ -7,13 +7,11 @@ import images from "../../../assets/images/images";
 const cx = classNames.bind(Styles);
 
 const Home = () => {
-
   const sectionRef = useRef(null);
 
   const scrollToSection = () => {
-    sectionRef.current.scrollIntoView({ behavior: 'smooth' });
+    sectionRef.current.scrollIntoView({ behavior: "smooth" });
   };
-
 
   return (
     <div className={cx("wrapper")}>
@@ -28,12 +26,14 @@ const Home = () => {
           cumplimiento de las normativas que resguardan el derecho a la
           información de las personas que amamantan.
         </span>
-        <button className={cx("banner-btn")} onClick={scrollToSection}>Descubrir</button>
+        <button className={cx("banner-btn")} onClick={scrollToSection}>
+          Descubrir
+        </button>
       </div>
 
       <div className={cx("about")}>
         <Image
-          src={images.noImage}
+          src={images.illustration1}
           className={cx("about-img")}
           alt="about-img"
         />
@@ -64,11 +64,13 @@ const Home = () => {
 
         <ul className={cx("function-list")}>
           <li className={cx("function-item")}>
-            <Image
-              src={images.noImage}
-              className={cx("function-icon")}
-              alt="function-icon"
-            />
+            <div className={cx("img-container")}>
+              <Image
+                src={images.function1}
+                className={cx("function-icon")}
+                alt="function-icon"
+              />
+            </div>
             <span className={cx("function-item-title")}>
               Detección de Infracciones con IA
             </span>
@@ -84,11 +86,14 @@ const Home = () => {
           </li>
 
           <li className={cx("function-item")}>
-            <Image
-              src={images.noImage}
-              className={cx("function-icon")}
-              alt="function-icon"
-            />
+            <div className={cx("img-container")}>
+              <img
+                src="/images/vision.svg"
+                className={cx("function-icon")}
+                alt="function-icon"
+                style={{ fill: "#146482"}}
+              />
+            </div>
             <span className={cx("function-item-title")}>
               Verificación y monitoreo continuo
             </span>
@@ -98,17 +103,19 @@ const Home = () => {
               los usuarios.
               <br />
               ¡Vos también podés{" "}
-              <span className={cx("text-special")}>sumar tu denuncia</span>{" "}
-              para que sea evaluada!
+              <span className={cx("text-special")}>sumar tu denuncia</span> para
+              que sea evaluada!
             </span>
           </li>
 
           <li className={cx("function-item")}>
-            <Image
-              src={images.noImage}
-              className={cx("function-icon")}
-              alt="function-icon"
-            />
+            <div className={cx("img-container")}>
+              <img
+                src="/images/quote-request.svg"
+                className={cx("function-icon")}
+                alt="function-icon"
+              />
+            </div>
             <span className={cx("function-item-title")}>Base de Recursos</span>
             <span className={cx("function-item-content")}>
               Un{" "}
@@ -122,11 +129,13 @@ const Home = () => {
           </li>
 
           <li className={cx("function-item")}>
-            <Image
-              src={images.noImage}
-              className={cx("function-icon")}
-              alt="function-icon"
-            />
+            <div className={cx("img-container")}>
+              <img
+                src="/images/penalty.svg"
+                className={cx("function-icon")}
+                alt="function-icon"
+              />
+            </div>
             <span className={cx("function-item-title")}>Datos y evidencia</span>
             <span className={cx("function-item-content")}>
               Como resultado, esta herramienta proporciona datos detallados y

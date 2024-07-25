@@ -19,7 +19,7 @@ const Recommendation = () => {
 
       <div className={cx("content-item-wrapper")}>
         <Image
-          src={images.noImage}
+          src={images.illustration3}
           className={cx("content-item-img")}
           alt="about-img"
         />
@@ -97,7 +97,7 @@ const Recommendation = () => {
 
       <div className={cx("content-item-wrapper")}>
         <Image
-          src={images.noImage}
+          src={images.illustration4}
           className={cx("content-item-img")}
           alt="about-img"
         />
@@ -135,7 +135,7 @@ const Recommendation = () => {
 
       <div className={cx("content-item-bg--wrapper")}>
         <Image
-          src={images.noImage}
+          src={images.illustration5}
           className={cx("content-item-bg--img")}
           alt="about-img"
         />
