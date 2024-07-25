@@ -1,0 +1,44 @@
+.wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 8rem 4rem;
+    border-radius: 0.8rem;
+}
+
+.contact {
+    display: flex;
+    align-items: center;
+    margin-bottom: 3rem;
+}
+
+.contact-title {
+    font-size: 4rem;
+    font-weight: 600;
+    margin-right: 3rem;
+}
+
+.contact-icon {
+    font-size: 5rem;
+}
+
+.desc {
+    display: flex;
+}
+
+.desc-item {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.logo-item {
+    width: 10rem;
+    padding-left:1rem;
+}
+
+.logo-img {
+    width: 30rem;
+}

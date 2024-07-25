@@ -1,0 +1,109 @@
+:root {
+    --headline-color: #2F82CE;
+    --primary-color: #146482;
+    --button-link-color: #C268FC;
+    --background-color: #FEFEFE;
+    --text-color: #000;
+
+    --font-family: "Inter", sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    font-family: var(--font-family);
+    font-size: 1.6rem;
+    line-height: 1.5;
+    text-rendering: optimizeSpeed;
+    overflow-y: overlay;
+    background-color: var(--background-color);
+}
+
+// Scrollbar CSS
+html *::-webkit-scrollbar {
+    border-radius: 0;
+    width: 8px;
+}
+
+html *::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(22, 24, 35, 0.06);
+}
+
+html *::-webkit-scrollbar-track {
+    border-radius: 0;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+table {
+    border-spacing: 0;
+}
+
+
+td {
+    border: 1px solid #eee;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 136.5%;
+    color: var(--text-color);
+}
+
+
+button,
+input,
+[tabindex] {
+    outline: none;
+    border: none;
+}
+
+a {
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+textarea {
+    resize: none;
+    outline: none;
+    border: none;
+}
+
+// Fonts Embedded
+@font-face {
+    font-family: Inter;
+    src: url('/assets/fonts/Inter-Light.ttf');
+    font-weight: 300;
+}
+
+@font-face {
+    font-family: Inter;
+    src: url('/assets/fonts/Inter-Regular.ttf');
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: Inter;
+    src: url('/assets/fonts/Inter-Medium.ttf');
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: Inter;
+    src: url('/assets/fonts/Inter-SemiBold.ttf');
+    font-weight: 600;
+}
+
+@font-face {
+    font-family: Inter;
+    src: url('/assets/fonts/Inter-Bold.ttf');
+    font-weight: 700;
+}
